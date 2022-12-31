@@ -1,0 +1,29 @@
+UTF-8 is a variable length character encoding, where each character's encoding uses 1 to 4 bytes. The more common a
+character is - the shorter its encoding. Indeed, the encoding of every character in the ASCII table is 1 byte.
+
+In particular, the encoding works as follows: given a character, if it's in the ASCII table - it's "normal" 7 bit
+encoding is taken, and put into a byte where the MSB is 0. otherwise, the encoding will consist of more than 1 byte.
+In that case, the Most Significant Byte of the encoding will start with a sequence of 1s that ends a zero, and the
+length of said sequence will indicate how many bytes are used to encode the character. The rest of the bits in the
+Most Significant Byte will be part of the encoding. Also, the rest of the encoding bytes will start with 10.
+
+In fact, UTF-8 can represent 2^21 different characters. The advantage of UTF-8 is that it allows for a much larger
+character set, but at the same time common characters use shorter encoding. Thus, pure english files don't
+need to be converted, nor do they take more space.
+
+Additionally, UTF-8 is not affected by endianness because it is defined in terms of a stream of single bytes.
+In other words, even though a character's encoding can be longer than 1 byte, those bytes are treated as seperated units.
+And so, reversing the order of the bytes will not change the content.
+
+examples:
+
+1. The character 'W': The UTF-8 encoding is 01110111. The MSB of the first byte of the encoding is 0, therefore it is
+   1 byte long, and the Code Point in binary is 1110111, yielding the 'W' character.
+
+2. The character 'å': The UTF-8 encoding is 11000011 10100101. The MSB of the first byte of the encoding is 1, and by
+   counting the length of the 1s sequence, the encoding should be 2 bytes long. When removing unnecessary headers,
+   we get that the Code Point in binary is 00011100101, and the character is, in fact, 'å'.
+
+3. The character 'ह': The UTF-8 encoding is 11100000 10100100 10111001. The MSB of the first byte of the encoding is 1,
+   and by counting the length of the 1s sequence, the encoding should be 3 bytes long. When removing unnecessary headers,
+   we get that the Code Point in binary is 0000100100111001, and the character is, as expected, 'ह'.

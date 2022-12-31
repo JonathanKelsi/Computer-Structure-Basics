@@ -1,0 +1,9 @@
+A wide character (or in short, a wide char) is a character datatype that has a larger size than 1 byte.
+Usually, wide characters are used to represent characters which require more memory than regular characters
+from the ASCII table.
+
+Wide characters are indeed affected by endianness, because the bytes that form the wide char are treated as one
+unit. Therefore, reversing the byte order of each unit will in fact change its content.
+
+A well-known encoding that uses wide characters is Unicode! Unicode uses 2 bytes to represent its characters,
+and therefore it uses wide chars.
